@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'Admin.dart';
+import 'Agent.dart';
 import 'api/LogIn.dart';
 
 void main() {
@@ -44,10 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ScaffoldMessenger.of(context)
                 .showSnackBar(
                 const SnackBar(content: Text("LogIn Successful! Admin")));
+            runApp(const Admin());
           }else if(data["role"]=="Agent" && data["status"]=="Active"){
             ScaffoldMessenger.of(context)
                 .showSnackBar(
                 const SnackBar(content: Text("LogIn Successful! Agent")));
+            runApp(const Agent());
 
           } else {
           ScaffoldMessenger.of(context)
