@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         false) {
       //print("$status $cardNum");
       try {
-        final data = await createCard(accountnum!,cardNum!,pin!,status!);
+        final data = await createCard(int.parse(accountnum!),cardNum!,pin!,status!);
         if (data == true) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Card Association done!")));

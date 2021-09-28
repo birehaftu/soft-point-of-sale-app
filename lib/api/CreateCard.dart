@@ -7,7 +7,7 @@ Future<dynamic> GetListOfAccounts() async {
   try {
     final response = await http.get(
         Uri.parse(
-            'http://192.168.1.15:9095/api/customerAccount/list' )
+            'http://192.168.55.125:9095/api/customerAccount/list' )
     );
 
     if (response.statusCode == 200) {
@@ -25,13 +25,13 @@ Future<dynamic> GetListOfAccounts() async {
 //print('unknown Error : $e');
   }
 }
-Future<dynamic> createCard(String accountId,String cardCode,String pin,String status) async {
+Future<dynamic> createCard(int accountId,String cardCode,String pin,String status) async {
   // add validation here
   try {
     final response = await http.post(
       //Uri.parse('http://192.168.178.28:8080/api/account/create'),
         Uri.parse(
-            'http://192.168.1.15:9095/api/customerCard/create')
+            'http://192.168.55.125:9095/api/customerCard/create')
       , headers: <String, String>{
       'Content-Type': 'application/json',
     },

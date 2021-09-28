@@ -7,7 +7,7 @@ Future<dynamic> LogIn(String userName, password) async {
     final response = await http.post(
       //Uri.parse('http://192.168.178.28:8080/api/account/create'),
         Uri.parse(
-            'http://192.168.1.15:9095/api/user/logIn/' + userName + "/" + password)
+            'http://192.168.55.125:9095/api/user/logIn/' + userName + "/" + password)
       /*, headers: <String, String>{
       'Content-Type': 'application/json',
     },
