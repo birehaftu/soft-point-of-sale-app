@@ -24,7 +24,7 @@ Future<dynamic> getCardByCardCode(String cardCode) async {
 //print('unknown Error : $e');
   }
 }
-Future<dynamic> makeTransaction(double accountId,String cardCode,String pin,String status) async {
+Future<dynamic> makeTransaction(double amount,int cardId,String goodName,String status) async {
   // add validation here
   try {
     final response = await http.post(
@@ -37,10 +37,10 @@ Future<dynamic> makeTransaction(double accountId,String cardCode,String pin,Stri
       'Content-Type': 'application/json',
     },
       body: jsonEncode(<String, dynamic>{
-        'customer_account':{'accountId': accountId},
-        'cardCode': cardCode,
-        'pin': pin,
-        'status': status
+        'customer_account':{'cardId': cardId},
+        'amount': amount,
+        'status': status,
+        'goodName': goodName
       }),
     );
 

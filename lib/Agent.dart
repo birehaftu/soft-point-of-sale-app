@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   ValueNotifier<dynamic> result = ValueNotifier(null);
-  String? status, cardNum, reason, pin,  actualPin, amount, balance;
+  String? cardId,status, cardNum, reason, pin,  actualPin, amount, balance;
 
   void initState() {
     _tagRead();
@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //print("$status $cardNum");
         try {
           final data = await makeTransaction(
-              double.parse(amount!), cardNum!, pin!, status!);
+              double.parse(amount!),int.parse(cardId!),reason!, "Complete");
           if (data == true) {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Transaction done!")));
@@ -199,10 +199,12 @@ class _MyHomePageState extends State<MyHomePage> {
         balance = row;
         status = data["status"];
         actualPin== data["pin"];
+        cardId=data["cardId"];
       } else {
         balance = '';
         status = '';
         actualPin='';
+        cardId='';
       }
 
       //NfcManager.instance.stopSession();
