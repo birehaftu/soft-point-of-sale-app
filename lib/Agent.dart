@@ -58,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         if (double.parse(balance!) < double.parse(amount!)) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Payment Amount :" +
+              content: Text("Payment Amount : " +
                   amount! +
-                  " is greater than balance " +
+                  " is greater than balance : " +
                   balance!)));
           return;
         }
