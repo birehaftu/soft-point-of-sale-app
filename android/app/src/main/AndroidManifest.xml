@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="et.edu.act.soft_point_of_sale_app">
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
     <application
         android:label="soft_point_of_sale_app"
         android:icon="@mipmap/ic_launcher">
