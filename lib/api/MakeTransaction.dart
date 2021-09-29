@@ -1,6 +1,29 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+Future<dynamic> getCardByCardCode(String cardCode) async {
+  // add validation here
+  try {
+    final response = await http.get(
+        Uri.parse(
+            'http://192.168.1.9:9095/api/customerCard/getByCard/'+cardCode )
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      //print(data);
+      return data;
+    } else {
+      return null;
+    }
+  } on Exception catch (e) {
+    throw Exception(e);
+//print('Error: $e');
+  } catch (e) {
+    throw Exception(e);
+//print('unknown Error : $e');
+  }
+}
 Future<dynamic> makeTransaction(double accountId,String cardCode,String pin,String status) async {
   // add validation here
   try {
