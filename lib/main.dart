@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ScaffoldMessenger.of(context)
                 .showSnackBar(
                 const SnackBar(content: Text("LogIn Successful! Agent")));
-            runApp(const Agent());
+            runApp(Agent(userId: data["userId"].toString(),));
             //runApp(ExampleApp());
 
           } else {
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Scrollbar(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const Text(
                 "User LogIn",

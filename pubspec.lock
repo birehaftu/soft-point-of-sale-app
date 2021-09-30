@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  deep_pick:
+    dependency: "direct main"
+    description:
+      name: deep_pick
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   dropdownfield:
     dependency: "direct main"
     description:

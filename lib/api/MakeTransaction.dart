@@ -4,15 +4,22 @@ import 'package:http/http.dart' as http;
 Future<dynamic> getCardByCardCode(String cardCode) async {
   // add validation here
   try {
-    final response = await http.get(
-        Uri.parse(
-            'http://192.168.1.9:9095/api/customerCard/getByCard/'+cardCode )
+    final response = await http.post(
+      Uri.parse('http://192.168.1.9:9095/api/customerCard/getByCard/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{'cardCode': cardCode}),
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      //print(data);
-      return data;
+      if (response.body != null && response.body != "") {
+        final data = jsonDecode(response.body);
+        print(data);
+        return data;
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -24,7 +31,10 @@ Future<dynamic> getCardByCardCode(String cardCode) async {
 //print('unknown Error : $e');
   }
 }
-Future<dynamic> makeTransaction(double amount,int cardId,String goodName,String status) async {
+
+Future<dynamic> makeTransaction(double amount, double balance, int reciever,
+    int accountId, int cardId, int userId,
+    String goodName, String status) async {
   // add validation here
   try {
     final response = await http.post(
@@ -32,12 +42,17 @@ Future<dynamic> makeTransaction(double amount,int cardId,String goodName,String 
       Uri.parse(
         //'http://10.0.2.2:9095/api/customerCard/create')
         //'http://192.168.1.9:9095/api/customerCard/create')
-          'http://192.168.1.9:9095/api/customerCard/create')
-      , headers: <String, String>{
-      'Content-Type': 'application/json',
-    },
+          'http://192.168.1.9:9095/api/cardTransaction/create'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
       body: jsonEncode(<String, dynamic>{
-        'customer_account':{'cardId': cardId},
+        'transaction_card': {
+          'cardId': cardId,
+          'customer_account': {"accountId": accountId,
+            "balance": balance}
+        },
+        'transaction_user': {'userId': userId},
         'amount': amount,
         'status': status,
         'goodName': goodName
@@ -45,27 +60,39 @@ Future<dynamic> makeTransaction(double amount,int cardId,String goodName,String 
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print(data);
-      return data;
-      /*if(data!=null) {
-        return true;
+      final data2 = json.decode(response.body);
+      if (data2 == true) {
+        final response2 = await http.post(Uri.parse(
+            'http://192.168.1.9:9095/api/customerAccount/updateBalance')
+            ,
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "accountId": reciever,
+                "balance": (balance + amount)}),
+            );
+
+            if (response2.statusCode == 200)
+        {
+          return data2;
+        } else {
+        return "";
       }
-      else{
-        return false;
-      }*/
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      return "";
-      //throw Exception('LogIn failed.' + response.statusCode.toString() + " : " +
-      //    response.body);
     }
-  } on Exception catch (e) {
-    throw Exception(e);
+  } else {
+  return "";
+  }
+  } on Exception
+  catch
+  (
+  e) {
+  throw Exception(e);
 //print('Error: $e');
-  } catch (e) {
-    throw Exception(e);
+  } catch
+  (
+  e) {
+  throw Exception(e);
 //print('unknown Error : $e');
   }
 }

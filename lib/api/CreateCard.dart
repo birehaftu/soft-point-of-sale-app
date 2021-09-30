@@ -28,7 +28,7 @@ Future<dynamic> GetListOfAccounts() async {
 Future<dynamic> createCard(int accountId,String cardCode,String pin,String status) async {
   // add validation here
   try {
-    if(getCardByCardCode(cardCode)==null) {
+    if((await getCardByCardCode(cardCode))==null) {
       final response = await http.post(
         //Uri.parse('http://192.168.178.28:8080/api/account/create'),
         Uri.parse(

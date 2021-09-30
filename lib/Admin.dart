@@ -6,6 +6,8 @@ import 'api/CreateCard.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
+import 'main.dart';
+
 class Admin extends StatelessWidget {
   const Admin({Key? key}) : super(key: key);
 
@@ -37,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> accountNames = [];
   List<String> statusList = ["Active", "InActive", "Expired", "Blocked"];
   String? status, cardNum, accountnum, pin;
+
   void initState() {
     //await loadPage();
     Timer.run(() => loadPage());
@@ -66,10 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
       //print('unknown Error : $e');
     }
   }
-
+  void _handlelogout(){
+    runApp(const MyApp());
+  }
   Future<void> _handleButtonPress() async {
-    print("CardNum:"+cardNum.toString());
-   if (((accountnum?.isEmpty ?? true) ||
+    print("CardNum:" + cardNum.toString());
+    if (((accountnum?.isEmpty ?? true) ||
             (status?.isEmpty ?? true) ||
             (pin?.isEmpty ?? true) ||
             (cardNum?.isEmpty ?? true)) ==
@@ -82,8 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Card Association done!")));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-              content: Text('Card Association failed try again! CardNum:'+cardNum.toString())));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Card Association failed try again! CardNum:' +
+                  cardNum.toString())));
         }
       } on Exception catch (e) {
         ScaffoldMessenger.of(context)
@@ -107,90 +113,102 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body:  SafeArea(
-    child: FutureBuilder<bool>(
-    future: NfcManager.instance.isAvailable(),
-    builder: (context, ss) => ss.data != true
-    ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
-        : Flex(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    direction: Axis.vertical,
-    children: <Widget>[
-              const Text(
-                "Account Card Association",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(child: Text('Tag Read'), onPressed: _tagRead),
-              const Text("Card Code"),
-              Flexible(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.all(2),
-                  constraints: BoxConstraints.tightForFinite(),
-                  decoration: BoxDecoration(border: Border.all()),
-                  child: SingleChildScrollView(
-                    child: ValueListenableBuilder<dynamic>(
-                      valueListenable: result,
-                      builder: (context, value, _) =>
-                         // Text('${value ?? ''}'),
-                     Text('${value??''}'),
+      body: SafeArea(
+        child: FutureBuilder<bool>(
+          future: NfcManager.instance.isAvailable(),
+          builder: (context, ss) => ss.data != true
+              ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
+              : Flex(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  direction: Axis.vertical,
+                  children: <Widget>[
+                    const Text(
+                      "Account Card Association",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        child: Text('Tag Read'), onPressed: _tagRead),
+                    const Text("Card Code"),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        margin: EdgeInsets.all(2),
+                        constraints: BoxConstraints.tightForFinite(),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: SingleChildScrollView(
+                          child: ValueListenableBuilder<dynamic>(
+                            valueListenable: result,
+                            builder: (context, value, _) =>
+                                // Text('${value ?? ''}'),
+                                Text('${value ?? ''}'),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Text("pin"),
+                    TextField(
+                      autofocus: true,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      onChanged: (String value) {
+                        pin = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DropDownField(
+                        value: accountnum,
+                        required: true,
+                        labelText: 'Account Number',
+                        icon: Icon(Icons.account_balance),
+                        items: accountNames,
+                        onValueChanged: (dynamic val) {
+                          accountnum = val;
+                        },
+                        setter: (dynamic newValue) {
+                          accountnum = newValue;
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DropDownField(
+                        value: status,
+                        required: true,
+                        labelText: 'Card Status',
+                        items: statusList,
+                        onValueChanged: (dynamic val) {
+                          status = val;
+                        },
+                        setter: (dynamic newValue) {
+                          status = newValue;
+                        }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),
+                      onPressed: _handleButtonPress,
+                      child: const Text('Associate'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),
+                      onPressed: _handlelogout,
+                      child: const Text('logout'),
+                    )
+                  ],
                 ),
-              ),
-              const Text("pin"),
-              TextField(
-                autofocus: true,
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                onChanged: (String value) {
-                  pin = value;
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DropDownField(
-                  value: accountnum,
-                  required: true,
-                  labelText: 'Account Number',
-                  icon: Icon(Icons.account_balance),
-                  items: accountNames,
-                  onValueChanged: (dynamic val) {
-                    accountnum = val;
-                  },
-                  setter: (dynamic newValue) {
-                    accountnum = newValue;
-                  }),
-              const SizedBox(
-                height: 10,
-              ),
-              DropDownField(
-                  value: status,
-                  required: true,
-                  labelText: 'Card Status',
-                  items: statusList,
-                  onValueChanged: (dynamic val) {
-                    status = val;
-                  },
-                  setter: (dynamic newValue) {
-                    status = newValue;
-                  }),
-              const SizedBox(
-                height: 10,
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20),
-                ),
-                onPressed: _handleButtonPress,
-                child: const Text('Associate'),
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -198,11 +216,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      result.value =await tag.data;
-      String num=result.value.toString();
-      String filter=num.substring((num.indexOf("[")),(num.indexOf("]")+1));
-      result.value=filter;
-      cardNum=filter;
+      result.value = await tag.data;
+      String num = result.value.toString();
+      String filter = num.substring((num.indexOf("[")), (num.indexOf("]") + 1));
+      result.value = filter;
+      cardNum = filter;
       //NfcManager.instance.stopSession();
     });
   }
