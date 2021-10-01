@@ -81,15 +81,22 @@ class _MyHomePageState extends State<MyHomePage> {
         false) {
       //print("$status $cardNum");
       try {
-        final data =
-            await createCard(int.parse(accountnum!), cardNum!, pin!, status!);
-        if (data == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Card Association done!")));
-        } else {
+        final data = await getCardByCardCode(cardNum!);
+        if (data == null) {
+          final data =
+          await createCard(int.parse(accountnum!), cardNum!, pin!, status!);
+          if (data == true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Card Association done!")));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Card Association failed try again! CardNum:' +
+                    cardNum.toString())));
+          }
+        }else{
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Card Association failed try again! CardNum:' +
-                  cardNum.toString())));
+              content: Text(' CardNum:' +
+                  cardNum.toString()+' Is already associated previously!')));
         }
       } on Exception catch (e) {
         ScaffoldMessenger.of(context)

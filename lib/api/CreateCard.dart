@@ -78,9 +78,10 @@ Future<dynamic> createCard(int accountId,String cardCode,String pin,String statu
 Future<dynamic> getCardByCardCode(String cardCode) async {
   // add validation here
   try {
-    final response = await http.get(
+    final response = await http.post(
         Uri.parse(
-            'https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
+            //'https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
+            'http://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
     );
 
     if (response.statusCode == 200) {

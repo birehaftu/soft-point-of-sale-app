@@ -250,8 +250,9 @@ class _MyHomePageState extends State<MyHomePage> {
             if (key == "cardId") card = value.toString();
           });
           cardId = card;
-          reason='';
         } else {
+          result.value = "Card is not linked!";
+          cardNum = "";
           balance = '';
           status = '';
           actualPin = '';
