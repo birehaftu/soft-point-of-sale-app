@@ -8,8 +8,8 @@ Future<dynamic> LogIn(String userName, password) async {
       //Uri.parse('http://192.168.178.28:8080/api/account/create'),
         Uri.parse(
           //'http://10.0.2.2:9095/api/customerCard/create')
-          //'http://192.168.1.9:9095/api/customerCard/create')
-            'http://192.168.1.9:9095/api/user/logIn/' + userName + "/" + password)
+          //https://soft-point-of-sale-act.herokuapp.com//api/customerCard/create')
+            https://soft-point-of-sale-act.herokuapp.com//api/user/logIn/' + userName + "/" + password)
       /*, headers: <String, String>{
       'Content-Type': 'application/json',
     },
