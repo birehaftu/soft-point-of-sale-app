@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // TODO: Specify your own unique Application ID ('https://developer.android.com/studio/build/application-id.html).
         applicationId "edu.act.money_transfer_app_actse"
         minSdkVersion 16
         targetSdkVersion 30

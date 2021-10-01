@@ -5,7 +5,7 @@ Future<dynamic> getCardByCardCode(String cardCode) async {
   // add validation here
   try {
     final response = await http.post(
-      Uri.parse(https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'),
+      Uri.parse('https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -41,8 +41,8 @@ Future<dynamic> makeTransaction(double amount, double balance, int reciever,
       //Uri.parse('http://192.168.178.28:8080/api/account/create'),
       Uri.parse(
         //'http://10.0.2.2:9095/api/customerCard/create')
-        //https://soft-point-of-sale-act.herokuapp.com/api/customerCard/create')
-          https://soft-point-of-sale-act.herokuapp.com/api/cardTransaction/create'),
+        //'https://soft-point-of-sale-act.herokuapp.com/api/customerCard/create')
+          'https://soft-point-of-sale-act.herokuapp.com/api/cardTransaction/create'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -63,7 +63,7 @@ Future<dynamic> makeTransaction(double amount, double balance, int reciever,
       final data2 = json.decode(response.body);
       if (data2 == true) {
         final response2 = await http.post(Uri.parse(
-            https://soft-point-of-sale-act.herokuapp.com/api/customerAccount/updateBalance')
+            'https://soft-point-of-sale-act.herokuapp.com/api/customerAccount/updateBalance')
             ,
             headers: <String, String>{
               'Content-Type': 'application/json',
