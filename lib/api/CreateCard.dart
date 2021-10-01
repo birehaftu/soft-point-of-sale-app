@@ -7,7 +7,7 @@ Future<dynamic> GetListOfAccounts() async {
   try {
     final response = await http.get(
         Uri.parse(
-            https://soft-point-of-sale-act.herokuapp.com//api/customerAccount/list' )
+            https://soft-point-of-sale-act.herokuapp.com/api/customerAccount/list' )
     );
 
     if (response.statusCode == 200) {
@@ -33,8 +33,8 @@ Future<dynamic> createCard(int accountId,String cardCode,String pin,String statu
         //Uri.parse('http://192.168.178.28:8080/api/account/create'),
         Uri.parse(
           //'http://10.0.2.2:9095/api/customerCard/create')
-          //https://soft-point-of-sale-act.herokuapp.com//api/customerCard/create')
-            https://soft-point-of-sale-act.herokuapp.com//api/customerCard/create')
+          //https://soft-point-of-sale-act.herokuapp.com/api/customerCard/create')
+            https://soft-point-of-sale-act.herokuapp.com/api/customerCard/create')
         , headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -80,7 +80,7 @@ Future<dynamic> getCardByCardCode(String cardCode) async {
   try {
     final response = await http.get(
         Uri.parse(
-            https://soft-point-of-sale-act.herokuapp.com//api/customerCard/getByCard/'+cardCode )
+            https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
     );
 
     if (response.statusCode == 200) {
