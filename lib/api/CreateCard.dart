@@ -79,15 +79,20 @@ Future<dynamic> getCardByCardCode(String cardCode) async {
   // add validation here
   try {
     final response = await http.post(
-        Uri.parse(
-            //'https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
-            'http://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'+cardCode )
+      Uri.parse('https://soft-point-of-sale-act.herokuapp.com/api/customerCard/getByCard/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{'cardCode': cardCode}),
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      //print(data);
-      return data;
+      if (response.body != null && response.body != "") {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
