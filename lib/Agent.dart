@@ -48,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
       pin,
       actualPin,
       amount,
-      balance,reciever;
+      balance,
+      reciever;
 
   void initState() {
     _tagRead();
@@ -61,13 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
       if (((reason?.isEmpty ?? true) ||
               (status?.isEmpty ?? true) ||
               (amount?.isEmpty ?? true) ||
-          (reciever?.isEmpty ?? true) ||
+              (reciever?.isEmpty ?? true) ||
               (balance?.isEmpty ?? true) ||
               (pin?.isEmpty ?? true)) ==
           false) {
         if (reciever == accountId) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Debit and Credit account can't be the same." + status!)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  "Debit and Credit account can't be the same." + status!)));
           return;
         }
         if (status != "Active") {
@@ -98,8 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Transaction done!")));
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Transaction failed try again!')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Transaction failed try again!')));
           }
         } on Exception catch (e) {
           ScaffoldMessenger.of(context)
@@ -132,7 +134,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: FutureBuilder<bool>(
           future: NfcManager.instance.isAvailable(),
           builder: (context, ss) => ss.data != true
-              ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
+              ? Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                      Text('There is no availble NFC! Enable NFC if availble, then logout and login!'),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: _handlelogout,
+                        child: const Text('logout'),
+                      )
+                    ]))
               : Flex(
                   mainAxisAlignment: MainAxisAlignment.start,
                   direction: Axis.vertical,
@@ -224,9 +241,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _handlelogout(){
+  void _handlelogout() {
     runApp(const MyApp());
   }
+
   void _tagRead() {
     try {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
@@ -257,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
           status = '';
           actualPin = '';
           cardId = '';
-          reason='';
+          reason = '';
         }
 
         //NfcManager.instance.stopSession();

@@ -69,9 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
       //print('unknown Error : $e');
     }
   }
-  void _handlelogout(){
+
+  void _handlelogout() {
     runApp(const MyApp());
   }
+
   Future<void> _handleButtonPress() async {
     print("CardNum:" + cardNum.toString());
     if (((accountnum?.isEmpty ?? true) ||
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         final data = await getCardByCardCode(cardNum!);
         if (data == null) {
           final data =
-          await createCard(int.parse(accountnum!), cardNum!, pin!, status!);
+              await createCard(int.parse(accountnum!), cardNum!, pin!, status!);
           if (data == true) {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Card Association done!")));
@@ -93,10 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 content: Text('Card Association failed try again! CardNum:' +
                     cardNum.toString())));
           }
-        }else{
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(' CardNum:' +
-                  cardNum.toString()+' Is already associated previously!')));
+                  cardNum.toString() +
+                  ' Is already associated previously!')));
         }
       } on Exception catch (e) {
         ScaffoldMessenger.of(context)
@@ -124,7 +127,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: FutureBuilder<bool>(
           future: NfcManager.instance.isAvailable(),
           builder: (context, ss) => ss.data != true
-              ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
+              ? Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                      Text('There is no availble NFC! Enable NFC if availble, then logout and login!'),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: _handlelogout,
+                        child: const Text('logout'),
+                      )
+                    ]))
               : Flex(
                   mainAxisAlignment: MainAxisAlignment.start,
                   direction: Axis.vertical,
