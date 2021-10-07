@@ -60,11 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       } on Exception catch (e) {
         ScaffoldMessenger.of(context)
-            .showSnackBar( SnackBar(content: Text('Error: $e')));
+            .showSnackBar(
+            const SnackBar(content: Text("Invalid username or password!")));
         //print('Error: $e');
       } catch (e) {
         ScaffoldMessenger.of(context)
-            .showSnackBar( SnackBar(content: Text('unknown Error : $e')));
+            .showSnackBar(
+            const SnackBar(content: Text("Invalid username or password!")));
         //print('unknown Error : $e');
       }
 
